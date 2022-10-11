@@ -8,11 +8,29 @@
 import UIKit
 
 class PokedexTableViewController: UIViewController {
-
+    var pokedexResults: [PokemonResult] = []
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        NetworkingController.fetchPokedex { result in
+            switch result {
+            case.success(let pokedex):
+                self.pokedexResults = pokedex.results
+                self.tableView.reloadData()
+            case.failure(let error):
+                print("error", error.errorDescription)
+            }
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return pokedexResults.count
+    }
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "pokedexCell", for: indexPath)
+        let pokedexResult = pokedexResults[indexPath.row].url
+        cell.updateViews(pokemonURLString: pokemonURLString)
+        return cell
     }
     
 

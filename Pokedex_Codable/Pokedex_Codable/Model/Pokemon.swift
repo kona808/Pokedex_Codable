@@ -18,9 +18,9 @@ import Foundation
 //    }
 // Pokedex is TopLevelDictionary
 struct Pokedex: Decodable {
-    let results: [Pokemon]
+    let results: [PokemonResult]
 }
-struct Pokemon: Decodable {
+struct PokemonResult: Decodable {
     let name: String
     let url: String
 }
